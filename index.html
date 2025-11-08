@@ -1,255 +1,86 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hadiah Spesial Untukmu!</title>
+    <title>Access Notice - lanastore.my.id</title>
+    <!-- Memuat Tailwind CSS untuk styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Memuat font Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     
-    <!-- Meta Verifikasi Google -->
-    <meta name="google-site-verification" content="P-jT0LL58tZNnTrFtGtTZRWGXwWHlfasV7e5uiHWiLs">
-    
-    <!-- Memanggil File CSS Eksternal -->
-    <link rel="stylesheet" href="style.css">
-    
-    <!-- Script Google reCAPTCHA -->
-    <!-- 'async defer' membantu loading halaman agar tidak terhambat -->
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    
-    <!-- 
-      Fungsi ini WAJIB ada di sini (inline) 
-      agar bisa dipanggil oleh 'data-callback' dari reCAPTCHA 
-    -->
-    <script>
-        function onCaptchaSuccess() {
-            // Aktifkan tombol 'Lanjut' setelah Captcha sukses
-            document.getElementById('captcha-next-btn').disabled = false;
-            document.getElementById('captcha-next-btn').classList.add('active');
+    <style>
+        /* Mengatur font utama dan gambar latar belakang */
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Menggunakan gambar latar belakang yang Anda berikan */
+            background-image: url('https://feeldreams.github.io/wp11.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
         }
-    </script>
+    </style>
 </head>
 <body>
 
-    <!-- Kontrol Audio -->
-    <button id="audio-toggle" class="audio-control">🔈</button>
-
-    <!-- Musik Latar (Autoplay) -->
-    <!-- 
-      Atribut 'autoplay' dan 'loop' 
-      'allow="autoplay"' adalah usaha agar browser modern mau memainkannya
-    -->
-    <audio id="bg-music" loop allow="autoplay" autoplay>
+    <!-- Elemen Audio untuk memutar otomatis -->
+    <!-- Catatan: Banyak browser modern memblokir putar otomatis audio. 
+         Pengguna mungkin perlu berinteraksi dengan halaman terlebih dahulu. -->
+    <audio autoplay loop>
         <source src="https://files.catbox.moe/7czehh.mp3" type="audio/mpeg">
-        Browser Anda tidak mendukung elemen audio.
+        Your browser does not support the audio element.
     </audio>
 
-    <!-- 
-      =================================
-      LAYER 1: MODAL (Pop-up)
-      Awalnya semua modal disembunyikan
-      =================================
-    -->
-
-    <!-- MODAL 1: CAPTCHA (WAJIB) -->
-    <div id="captcha-modal" class="modal-overlay" style="display: flex;">
-        <div class="modal-content">
-            <h2 class="modal-title">Verifikasi Dulu Yaa...</h2>
-            <p class="modal-subtitle">Biar aku tau kamu bukan robot 🤖</p>
-            
-            <!-- Ganti 'data-sitekey' dengan kunci Anda -->
-            <div class="g-recaptcha" 
-                 data-sitekey="6LcrGgYsAAAAADE6ic5IBJcHVFZSGNfE9EiZgnZM"
-                 data-callback="onCaptchaSuccess">
-            </div>
-            
-            <button id="captcha-next-btn" class="modal-button" disabled>Lanjut</button>
-        </div>
-    </div>
-
-    <!-- MODAL 2: INPUT NAMA -->
-    <div id="name-modal" class="modal-overlay">
-        <div class="modal-content">
-            <h2 class="modal-title">Halo, Kamu!</h2>
-            <p class="modal-subtitle">Sebelum lanjut, boleh tau nama panggilanmu?</p>
-            <input type="text" id="name-input" class="modal-input" placeholder="Tulis nama di sini...">
-            <button id="name-submit-btn" class="modal-button">Lanjut!</button>
-        </div>
-    </div>
-
-    <!-- MODAL 3: GAME CILUKBA -->
-    <div id="game-cilukba-modal" class="modal-overlay">
-        <div class="modal-content game-modal">
-            <button class="modal-close-btn" onclick="closeModal('game-cilukba-modal')">&times;</button>
-            <h2 class="modal-title">Game: Cilukba Cepat!</h2>
-            <div class="game-info-container">
-                <div>Skor: <span id="game-score">0</span></div>
-                <div>Waktu: <span id="game-timer">15</span> detik</div>
-            </div>
-            <div id="game-board" class="game-board">
-                <!-- Kotak-kotak game akan dibuat oleh JavaScript -->
-            </div>
-            <button id="start-game-btn" class="modal-button">Mulai!</button>
-        </div>
-    </div>
-
-    <!-- MODAL 4: GAME MEMORY MATCH -->
-    <div id="game-memory-modal" class="modal-overlay">
-        <div class="modal-content game-modal">
-            <button class="modal-close-btn" onclick="closeModal('game-memory-modal')">&times;</button>
-            <h2 class="modal-title">Game: Memory Match!</h2>
-            <p class="modal-subtitle">Cari semua pasangan yang sama!</p>
-            <div class="memory-game-board" id="memory-board">
-                <!-- Kartu-kartu akan dibuat oleh JavaScript -->
-            </div>
-            <p>Langkah: <span id="memory-moves">0</span></p>
-            <button class="modal-button" id="memory-reset-btn">Reset Game</button>
-        </div>
-    </div>
-
-    <!-- MODAL 5: GAME KERTAS GUNTING BATU -->
-    <div id="game-kgb-modal" class="modal-overlay">
-        <div class="modal-content game-modal">
-            <button class="modal-close-btn" onclick="closeModal('game-kgb-modal')">&times;</button>
-            <h2 class="modal-title">Game: Kertas Gunting Batu!</h2>
-            <div class="kgb-scoreboard">
-                <span id="kgb-player-name">Kamu</span>
-                <span id="kgb-player-score">0</span>
-                <span>VS</span>
-                <span id="kgb-com-score">0</span>
-                <span>Komputer</span>
-            </div>
-            <p id="kgb-result">Pilih Jagoanmu!</p>
-            <div class="kgb-choices">
-                <button class="kgb-choice-btn" data-choice="kertas">📄</button>
-                <button class="kgb-choice-btn" data-choice="gunting">✂️</button>
-                <button class="kgb-choice-btn" data-choice="batu">🪨</button>
-            </div>
-            <div class="kgb-selection">
-                Pilihanmu: <span id="kgb-player-choice">?</span> |
-                Komputer: <span id="kgb-com-choice">?</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL 6: KERANG AJAIB -->
-    <div id="kerang-modal" class="modal-overlay">
-        <div class="modal-content">
-            <button class="modal-close-btn" onclick="closeModal('kerang-modal')">&times;</button>
-            <h2 class="modal-title">Tanya Kerang Ajaib!</h2>
-            <p class="modal-subtitle">Pikirkan satu pertanyaan (Ya/Tidak), lalu klik kerangnya!</p>
-            <div id="kerang-icon" class="kerang-icon">🐚</div>
-            <div id="kerang-answer" class="kerang-answer">...</div>
-        </div>
-    </div>
-
-    <!-- MODAL 7: GENERATOR SEMANGAT -->
-    <div id="semangat-modal" class="modal-overlay">
-        <div class="modal-content">
-            <button class="modal-close-btn" onclick="closeModal('semangat-modal')">&times;</button>
-            <h2 class="modal-title">Generator Semangat!</h2>
-            <p class="modal-subtitle">Lagi butuh dorongan? Klik tombol di bawah!</p>
-            <div id="quote-display" class="quote-display">
-                "Klik tombolnya untuk dapat kutipan semangat!"
-            </div>
-            <button id="new-quote-btn" class="modal-button">Kasih Semangat!</button>
-        </div>
-    </div>
-
-
-    <!-- 
-      =================================
-      LAYER 2: KONTEN UTAMA APLIKASI
-      Awalnya disembunyikan, baru muncul setelah nama diisi
-      =================================
-    -->
-    <div id="app-container" style="display: none;">
+    <!-- Kontainer utama dengan overlay gelap transparan -->
+    <div class="min-h-screen w-full flex items-center justify-center p-4 bg-black bg-opacity-50">
         
-        <!-- Bagian Konten (Halaman) -->
-        <main id="app-content">
+        <!-- Kartu Konten di Tengah -->
+        <div class="bg-white bg-opacity-90 backdrop-blur-sm rounded-2xl shadow-2xl p-6 md:p-10 max-w-lg w-full text-center">
             
-            <!-- Halaman 1: Beranda -->
-            <div id="page-home" class="page active">
-                <div class="header-image">
-                    <img src="https://feeldreams.github.io/pandapanah.gif" 
-                         alt="Panda Panah" 
-                         onerror="this.src='https://placehold.co/150x150/FFF/333?text=🐼'">
-                </div>
-                <h1 id="welcome-message">Halo, [Nama]!</h1>
-                <p class="page-subtitle">Selamat datang di hadiah sederhanaku.<br>Semoga kamu suka dan harimu menyenangkan!</p>
-                
-                <div class="card">
-                    <img src="https://feeldreams.github.io/weee.gif" 
-                         alt="Weee" 
-                         class="card-image" 
-                         onerror="this.src='https://placehold.co/100x100/FFF/333?text=🎉'">
-                    <p>Jangan lupa bahagia ya hari ini. Kamu hebat!</p>
-                </div>
+            <!-- Stiker GIF atas -->
+            <img src="https://feeldreams.github.io/emawh.gif" 
+                 alt="Cute Sticker" 
+                 class="w-32 h-32 mx-auto mb-4 rounded-full shadow-lg"
+                 onerror="this.src='https://placehold.co/128x128/e0e0e0/999?text=GIF'">
+
+            <!-- Judul Pesan -->
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+                Access Restricted
+            </h1>
+            
+            <!-- Isi Pesan -->
+            <p class="text-gray-700 text-base md:text-lg mb-4">
+                It seems you're trying to access <strong>lanastore.my.id</strong> from outside of Indonesia.
+            </p>
+            <p class="text-gray-700 text-base md:text-lg mb-6">
+                To access our site, please connect using an <strong>Indonesian VPN</strong>.
+            </p>
+            
+            <!-- Pesan Penutup -->
+            <p class="font-semibold text-blue-600">
+                We apologize for the inconvenience!
+            </p>
+
+            <!-- Stiker GIF Bawah -->
+            <div class="flex justify-center items-center space-x-2 md:space-x-4 mt-6">
+                <img src="https://feeldreams.github.io/cilukba.gif" 
+                     alt="Sticker" 
+                     class="w-16 h-16 md:w-20 md:h-20"
+                     onerror="this.src='https.placehold.co/80x80/e0e0e0/999?text=GIF'">
+                <img src="https://feeldreams.github.io/pandapanah.gif" 
+                     alt="Sticker" 
+                     class="w-16 h-16 md:w-20 md:h-20"
+                     onerror="this.src='https.placehold.co/80x80/e0e0e0/999?text=GIF'">
+                <img src="https://feeldreams.github.io/weee.gif" 
+                     alt="Sticker" 
+                     class="w-16 h-16 md:w-20 md:h-20"
+                     onerror="this.src='https.placehold.co/80x80/e0e0e0/999?text=GIF'">
             </div>
-
-            <!-- Halaman 2: Zona Game -->
-            <div id="page-games" class="page">
-                <h1 class="page-title">Zona Game!</h1>
-                <p class="page-subtitle">Ayo main game buat seru-seruan!</p>
-                
-                <button class="menu-button" onclick="showModal('game-cilukba-modal')">
-                    <span class="menu-icon">👻</span>
-                    <span class="menu-text">Cilukba Cepat</span>
-                </button>
-                <button class="menu-button" onclick="showModal('game-memory-modal')">
-                    <span class="menu-icon">🧠</span>
-                    <span class="menu-text">Memory Match</span>
-                </button>
-                <button class="menu-button" onclick="showModal('game-kgb-modal')">
-                    <span class_ ="menu-icon">🪨</span>
-                    <span class="menu-text">Kertas Gunting Batu</span>
-                </button>
-            </div>
-
-            <!-- Halaman 3: Zona Santai -->
-            <div id="page-relax" class="page">
-                <h1 class="page-title">Zona Santai</h1>
-                <p class="page-subtitle">Cari jawaban atau sedikit motivasi di sini.</p>
-
-                <button class="menu-button" onclick="showModal('kerang-modal')">
-                    <span class="menu-icon">🐚</span>
-                    <span class="menu-text">Tanya Kerang Ajaib</span>
-                </button>
-                <button class="menu-button" onclick="showModal('semangat-modal')">
-                    <span class="menu-icon">🌟</span>
-                    <span class="menu-text">Generator Semangat</span>
-                </button>
-                
-                <div class="card">
-                    <img src="https://feeldreams.github.io/emawh.gif" 
-                         alt="Emawh" 
-                         class="card-image" 
-                         onerror="this.src='https://placehold.co/100x100/FFF/333?text=😊'">
-                    <p>Santai dulu, tarik napas...<br>Semua bakal baik-baik aja.</p>
-                </div>
-            </div>
-
-        </main>
-
-        <!-- Navigasi Bawah -->
-        <nav id="app-nav">
-            <button class="nav-button active" data-page="page-home">
-                <span class="nav-icon">🏠</span>
-                <span class="nav-text">Beranda</span>
-            </button>
-            <button class="nav-button" data-page="page-games">
-                <span class="nav-icon">🎮</span>
-                <span class="nav-text">Game</span>
-            </button>
-            <button class="nav-button" data-page="page-relax">
-                <span class="nav-icon">🧘</span>
-                <span class="nav-text">Santai</span>
-            </button>
-        </nav>
-
-    </div> <!-- Akhir dari #app-container -->
-
-    <!-- Memanggil File JavaScript Eksternal -->
-    <!-- 'defer' memastikan skrip dimuat setelah HTML selesai di-parse -->
-    <script src="script.js" defer></script>
+        </div>
+    </div>
 
 </body>
 </html>
