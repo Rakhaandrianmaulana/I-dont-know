@@ -9,7 +9,7 @@
           "value": "ID"
         }
       ],
-      "destination": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "destination": "/blocked.html",
       "permanent": false
     }
   ]
