@@ -1,37 +1,6 @@
 {
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self'; frame-ancestors 'none';"
-        },
-        {
-          "key": "X-XSS-Protection",
-          "value": "1; mode=block"
-        },
-        {
-          "key": "X-Frame-Options",
-          "value": "DENY"
-        }
-      ]
-    }
-  ],
   "redirects": [
     {
-      "source": "/",
-      "has": [
-        {
-          "type": "header",
-          "key": "x-vercel-ip-country",
-          "value": "ID"
-        }
-      ],
-      "destination": "https://www.youtube.com/watch?v=dQw4w9WgXcQ", // Rickroll atau page blocked
-      "permanent": false
-    },
-    {
       "source": "/(.*)",
       "has": [
         {
@@ -40,7 +9,7 @@
           "value": "ID"
         }
       ],
-      "destination": "/blocked.html", // Atau buat custom blocked page
+      "destination": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
       "permanent": false
     }
   ]
