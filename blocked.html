@@ -1,27 +1,181 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-    <title>Access Blocked</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Access Restricted - Lana Store</title>
     <style>
-        body { 
-            font-family: Arial, sans-serif; 
-            text-align: center; 
-            padding: 50px;
-            background: #f0f0f0;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
         .container {
-            background: white;
-            padding: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 50px 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        h1 {
+            color: #e74c3c;
+            font-size: 32px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 18px;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+        
+        .message {
+            background: #fff5f5;
+            border: 1px solid #fed7d7;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 25px 0;
+            text-align: left;
+        }
+        
+        .message h3 {
+            color: #c53030;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .message p {
+            color: #744210;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .vpn-info {
+            background: #f0fff4;
+            border: 1px solid #9ae6b4;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .vpn-info h4 {
+            color: #2f855a;
+            margin-bottom: 8px;
+        }
+        
+        .contact {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .contact a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .contact a:hover {
+            text-decoration: underline;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .icon {
+                font-size: 60px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🚫 Access Restricted</h1>
-        <p>Website ini tidak dapat diakses dari Indonesia.</p>
-        <p>Silakan gunakan VPN untuk mengakses.</p>
+    <div class="container pulse">
+        <div class="icon">🚫</div>
+        
+        <h1>Akses Dibatasi</h1>
+        <p class="subtitle">Maaf, website ini tidak dapat diakses dari wilayah Indonesia.</p>
+        
+        <div class="message">
+            <h3>📋 Informasi Pembatasan</h3>
+            <p>• Pembatasan berdasarkan lokasi geografis<br>
+               • Hanya pengguna dengan VPN yang dapat mengakses<br>
+               • Kebijakan ini berlaku untuk semua pengguna dari Indonesia</p>
+        </div>
+        
+        <div class="vpn-info">
+            <h4>🔒 Cara Mengakses</h4>
+            <p>Gunakan VPN dan set lokasi ke negara lain (Singapura, Amerika, dll) untuk membuka akses ke website ini.</p>
+        </div>
+        
+        <div class="contact">
+            <p>Butuh bantuan? <a href="mailto:support@lanastore.my.id">Hubungi Support</a></p>
+        </div>
     </div>
+
+    <script>
+        // Tambah efek ketik untuk subtitle
+        document.addEventListener('DOMContentLoaded', function() {
+            const subtitle = document.querySelector('.subtitle');
+            const text = subtitle.textContent;
+            subtitle.textContent = '';
+            
+            let i = 0;
+            const typeWriter = () => {
+                if (i < text.length) {
+                    subtitle.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 50);
+                }
+            };
+            setTimeout(typeWriter, 1000);
+        });
+    </script>
 </body>
 </html>
